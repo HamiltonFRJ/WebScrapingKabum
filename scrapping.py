@@ -22,7 +22,7 @@ qtd = qtd_itens[:index]
 ultima_pagina = math.ceil(int(qtd)/ 20)
 
 # Criando o dicionario que terá a marca, preco novo e preco antigo de produtos
-dic_produtos = {'marca':[], 'precoNovo':[], 'precoAntigo':[]}
+dic_produtos = {'marca':[], 'precoNovo':[]}
 
 # Faz o acesso em cada página, alterando o page number da url
 for i in range(1, ultima_pagina+1):
@@ -40,3 +40,9 @@ for i in range(1, ultima_pagina+1):
 
         print(marca, precoNovo)
 
+        dic_produtos['marca'].append(marca)
+        dic_produtos['precoNovo'].append(precoNovo)
+    
+
+df = pd.DataFrame(dic_produtos)
+df.to_csv('C:/Users/hamil/WebScrapingBF/tabela.csv', encoding='utf-8', sep=';')
