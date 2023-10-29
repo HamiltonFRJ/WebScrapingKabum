@@ -18,8 +18,8 @@ qtd_itens = soup.find('div', id='listingCount').get_text().strip()
 index = qtd_itens.find(' ')
 qtd = qtd_itens[:index]
 
-ultima_pagina = math.ceil(int(qtd)/ 2)
+# Dividindo a quantidade de produtos totais pela quantidade em cada pagina, para identificar quantas paginas serao passadas
+ultima_pagina = math.ceil(int(qtd)/ 20)
 
-
-
-dic_produtos = {'marca': [], 'precoV:' [], ':' []}
+# Criando o dicionario que terá a marca, preco a vista e preco parcelado de produtos
+dic_produtos = {'marca':[], 'precoV:'[], 'precoP:'[]}
