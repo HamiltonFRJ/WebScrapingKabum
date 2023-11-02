@@ -2,9 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import pandas as pd
-import math
 
-urlobject = ['393973', # iPhone 14 Pro Max 512Gb
+urlarray = ['393973', # iPhone 14 Pro Max 512Gb
              '496065', # iPhone 14 Plus 128Gb
              '463074', # iPhone 14 Apple 128GB
              '347001', # iPhone 13 Apple 128GB
@@ -28,5 +27,40 @@ urlobject = ['393973', # iPhone 14 Pro Max 512Gb
              '388917', # Kindle 11 Geração Amazon, 16 GB Preto
             ] 
 
-for i in urlobject:
-  print ("https://www.kabum.com.br/produto/" + i)
+headers = {'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 OPR/102.0.0.0"}
+
+# Criando o dicionario que as informacoes a serem armazenadas
+dic_produtos = {'marca':[], 'precoPix':[],'precoParcelado':[], 'precoAntigo':[],}
+
+# Faz o acesso em cada página, alterando o id do produto
+for i in urlarray:
+    url_pag = f'https://www.kabum.com.br/produto/{i}'
+    site = requests.get(url_pag, headers=headers)
+    soup = BeautifulSoup(site.content, 'html.parser')
+
+    # Encontre a coluna de produto
+    produto = soup.find('div', class_=re.compile('col-purchase'))
+
+    # Encontra os identificadores de marca, precoEmPromo e antigoPreco
+    marca = produto.find('h1', class_=re.compile('dVrDvy')).get_text().strip()
+    precoPix = produto.find('h4', class_=re.compile('finalPrice')).get_text().strip()
+    precoParcelado = produto.find('b', class_=re.compile('regularPrice'))
+    if (precoParcelado):
+        precoParcelado = precoParcelado.get_text().strip()
+    else:
+        precoParcelado = precoPix
+    precoAntigo = produto.find('span', class_=re.compile('oldPrice'))
+    if (precoAntigo):
+        precoAntigo = precoAntigo.get_text().strip()
+    else:
+        precoAntigo = precoPix
+    
+    print(marca, precoPix, precoParcelado, precoAntigo)
+
+    dic_produtos['marca'].append(marca)
+    dic_produtos['precoPix'].append(precoPix) 
+    dic_produtos['precoParcelado'].append(precoParcelado) 
+    dic_produtos['precoAntigo'].append(precoAntigo) 
+
+df = pd.DataFrame(dic_produtos)
+df.to_csv('C:/Users/hamil/WebScrapingBF/tabela.csv', encoding='utf-8', sep=';')
