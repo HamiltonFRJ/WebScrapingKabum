@@ -25,6 +25,8 @@ urlarray = ['393973', # iPhone 14 Pro Max 512Gb
              '226391', # Interruptor Paralelo Inteligente 3 Way KaBuM! Smart 500
              '115094', # Interruptor KaBuM! Smart
              '388917', # Kindle 11 Geração Amazon, 16 GB Preto
+             #################################################################### -- Novos produtos
+             '398962', # iPhone 14 Pro Max 256Gb
             ] 
 
 headers = {'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 OPR/102.0.0.0"}
