@@ -43,7 +43,11 @@ for i in urlarray:
 
     # Encontra os identificadores de marca, precoEmPromo e antigoPreco
     marca = produto.find('h1', class_=re.compile('dVrDvy')).get_text().strip()
-    precoPix = produto.find('h4', class_=re.compile('finalPrice')).get_text().strip()
+    precoPix = produto.find('h4', class_=re.compile('finalPrice'))
+    if (precoPix):
+        precoPix = precoPix.get_text().strip()
+    else:
+        precoPix = "Indisponivel"
     precoParcelado = produto.find('b', class_=re.compile('regularPrice'))
     if (precoParcelado):
         precoParcelado = precoParcelado.get_text().strip()
